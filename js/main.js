@@ -127,13 +127,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Flip card functionality
-    const flipCards = document.querySelectorAll('.flip-card');
+    // Mobile menu functionality
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileNavLinks = document.querySelector('.nav-links');
     
-    flipCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const inner = this.querySelector('.flip-card-inner');
-            inner.style.transform = inner.style.transform === 'rotateY(180deg)' ? 'rotateY(0deg)' : 'rotateY(180deg)';
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileNavLinks.classList.toggle('active');
         });
-    });
+    }
+    
+    // Improved flip card functionality for touch devices
+    const flipCards = document.querySelectorAll('.flip-card');
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice) {
+        flipCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from other cards
+                flipCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('touched');
+                    }
+                });
+                
+                // Toggle active class on this card
+                this.classList.toggle('touched');
+            });
+        });
+        
+        // Close cards when clicking elsewhere
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.flip-card')) {
+                flipCards.forEach(card => {
+                    card.classList.remove('touched');
+                });
+            }
+        });
+    }
 });

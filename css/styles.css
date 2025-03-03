@@ -1141,3 +1141,147 @@
   .product-card:nth-child(3) .flip-card-back {
     background-color: rgba(153, 105, 193, 0.9); /* Purple for Soul */
   }
+
+  /* Disable hover effects on touch devices */
+  .touch-device:hover .flip-card-inner {
+    transform: rotateY(0deg);
+  }
+
+  /* Mobile Responsiveness Improvements */
+
+  /* General mobile adjustments */
+  @media (max-width: 768px) {
+    /* Adjust container padding */
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    
+    /* Make text more readable on small screens */
+    body {
+      font-size: 16px;
+    }
+    
+    /* Adjust hero section for mobile */
+    .hero-content {
+      padding: 0 20px;
+    }
+    
+    .hero-content h1 {
+      font-size: 2rem;
+      line-height: 1.3;
+    }
+    
+    .hero-content p {
+      font-size: 1rem;
+    }
+    
+    /* Improve product grid on mobile */
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    /* Adjust product cards for better mobile display */
+    .product-card {
+      height: 350px;
+    }
+    
+    /* Make pricing cards stack on mobile */
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    /* Adjust footer for mobile */
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .footer-column {
+      margin-bottom: 2rem;
+    }
+  }
+
+  /* Small mobile devices */
+  @media (max-width: 480px) {
+    /* Further reduce font sizes */
+    .hero-content h1 {
+      font-size: 1.8rem;
+    }
+    
+    /* Adjust navigation for very small screens */
+    .navbar {
+      padding: 0.8rem 1rem;
+    }
+    
+    .nav-links {
+      gap: 1rem;
+    }
+    
+    /* Make buttons more tappable */
+    .cta-button, 
+    .action-button {
+      padding: 0.8rem 1.5rem;
+      min-width: 120px;
+    }
+    
+    /* Adjust flip cards for better mobile experience */
+    .flip-card-front, 
+    .flip-card-back {
+      padding: 1rem;
+    }
+    
+    .flip-card-back h3 {
+      font-size: 1.5rem;
+    }
+    
+    .flip-card-back p {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Fix for mobile navigation */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      flex-direction: column;
+      padding: 1rem 0;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .mobile-menu-toggle {
+      display: block;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      padding-left: 1rem;
+    }
+  }
+
+  /* Improve touch interaction for flip cards */
+  @media (hover: none) {
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(0deg);
+    }
+    
+    .flip-card.touched .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+  }
