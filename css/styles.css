@@ -1146,3 +1146,88 @@
   .touch-device:hover .flip-card-inner {
     transform: rotateY(0deg);
   }
+
+  /* Mobile-specific fixes for product cards */
+  @media (max-width: 768px) {
+    /* Adjust product grid for better mobile display */
+    .product-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+    
+    /* Fix product card dimensions on mobile */
+    .product-card, .flip-card {
+      width: 100%;
+      height: 300px;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Ensure images display properly */
+    .product-image {
+      height: 180px;
+      width: 180px;
+      margin: 0 auto 1rem;
+    }
+    
+    .product-image img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    
+    /* Adjust flip card inner elements */
+    .flip-card-front, .flip-card-back {
+      width: 100%;
+      height: 100%;
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+    
+    /* Ensure text is readable */
+    .flip-card-front h3 {
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+    }
+    
+    .flip-card-back h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .flip-card-back p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Make buttons more tappable */
+    .flip-card-back .cta-button {
+      padding: 0.7rem 1.5rem;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Improve section spacing */
+    #products {
+      padding: 3rem 0;
+    }
+    
+    #products h2 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+  }
+
+  /* Extra small devices */
+  @media (max-width: 480px) {
+    .product-card, .flip-card {
+      height: 280px;
+    }
+    
+    .product-image {
+      height: 150px;
+      width: 150px;
+    }
+  }
