@@ -1,17 +1,242 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Hero slider functionality (for future use)
-    const dots = document.querySelectorAll('.dot');
-    const activateDot = (index) => {
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[index].classList.add('active');
-    };
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            activateDot(index);
-            // Additional logic for changing slides would go here
+    // Get the hero section
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    
+    // Store original hero state
+    const originalContent = hero.innerHTML;
+    const originalBackground = window.getComputedStyle(hero).backgroundImage;
+    
+    // Product slides data
+    const productSlides = [
+        {
+            title: "Norivé for the Mind",
+            heading: "Stimulates the Mind.<br>with Sage + Peppermint.",
+            description: "Norivé is appreciated worldwide by students, busy professionals and travellers on long journeys.",
+            image: "images/bubble-mind.png",
+            ctaLink: "#mind",
+            ctaText: "Learn more"
+        },
+        {
+            title: "Norivé for the Body",
+            heading: "Energizes the Body.<br>with Ginseng + Ginger.",
+            description: "Ideal for athletes, fitness enthusiasts and active individuals seeking natural energy.",
+            image: "images/bubble-body.png",
+            ctaLink: "#body",
+            ctaText: "Learn more"
+        },
+        {
+            title: "Norivé for the Soul",
+            heading: "Calms the Soul.<br>with Lavender + Chamomile.",
+            description: "Perfect for stress relief, relaxation and peaceful sleep at the end of a long day.",
+            image: "images/bubble-soul.png",
+            ctaLink: "#soul",
+            ctaText: "Learn more"
+        }
+    ];
+    
+    // Create a single navigation container
+    const navContainer = document.createElement('div');
+    navContainer.className = 'slider-nav';
+    navContainer.innerHTML = `
+        <div class="slider-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
+    `;
+    
+    // Remove any existing navigation
+    const existingNav = document.querySelector('.slider-nav');
+    if (existingNav) {
+        existingNav.remove();
+    }
+    
+    // Add the navigation to the hero section instead of body
+    hero.appendChild(navContainer);
+    
+    // Position the navigation
+    navContainer.style.position = 'absolute';
+    navContainer.style.bottom = '30px'; // Adjusted position
+    navContainer.style.left = '50%';
+    navContainer.style.transform = 'translateX(-50%)';
+    navContainer.style.zIndex = '100';
+    navContainer.style.display = 'flex';
+    
+    // Style the dots
+    const dotStyle = document.createElement('style');
+    dotStyle.textContent = `
+        .slider-nav .slider-dots {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .slider-nav .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-nav .dot.active {
+            background-color: #4ECB71;
+            transform: scale(1.2);
+        }
+        
+        .hero {
+            position: relative; /* Ensure hero has position relative */
+        }
+        
+        .product-slide {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+            padding: 0 5%;
+        }
+        
+        .slide-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 50%;
+        }
+        
+        .slide-image img {
+            max-width: 100%;
+            max-height: 400px;
+        }
+        
+        .slide-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 50%;
+        }
+        
+        .slide-content h2 {
+            color: #4ECB71;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .slide-content h2:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4ECB71;
+        }
+        
+        .slide-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .slide-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-slide {
+                flex-direction: column;
+                padding: 2rem;
+            }
+            
+            .slide-image, .slide-content {
+                max-width: 100%;
+            }
+            
+            .slide-content {
+                text-align: center;
+                padding: 1rem 0;
+            }
+            
+            .slide-content h2:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .slide-content h1 {
+                font-size: 2rem;
+            }
+        }
+    `;
+    document.head.appendChild(dotStyle);
+    
+    // Get the dots
+    const dots = navContainer.querySelectorAll('.dot');
+    
+    // Function to show a slide
+    function showSlide(index) {
+        // Update active dot
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
         });
+        
+        if (index === 0) {
+            // Restore original hero
+            hero.innerHTML = originalContent;
+            hero.style.backgroundImage = originalBackground;
+            hero.style.backgroundColor = '';
+            
+            // Remove any existing slider-dots inside the hero content
+            const innerDots = hero.querySelector('.hero-content .slider-dots');
+            if (innerDots) {
+                innerDots.remove();
+            }
+            
+            // Re-add our navigation
+            hero.appendChild(navContainer);
+        } else {
+            // Show product slide
+            const product = productSlides[index - 1]; // Adjust index for product array
+            
+            // Set white background
+            hero.style.backgroundImage = 'none';
+            hero.style.backgroundColor = 'white';
+            
+            // Create product slide HTML
+            hero.innerHTML = `
+                <div class="product-slide">
+                    <div class="slide-image">
+                        <img src="${product.image}" alt="${product.title}">
+                    </div>
+                    <div class="slide-content">
+                        <h2>${product.title}</h2>
+                        <h1>${product.heading}</h1>
+                        <p>${product.description}</p>
+                        <a href="${product.ctaLink}" class="cta-button">${product.ctaText}</a>
+                    </div>
+                </div>
+            `;
+            
+            // Re-add our navigation
+            hero.appendChild(navContainer);
+        }
+    }
+    
+    // Add click events to dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => showSlide(index));
     });
+    
+    // Remove any existing dots inside the hero content to avoid duplication
+    const initialDots = hero.querySelector('.hero-content .slider-dots');
+    if (initialDots) {
+        initialDots.remove();
+    }
 
     // Sticky header
     const header = document.querySelector('header');
