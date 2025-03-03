@@ -1273,8 +1273,9 @@
   .slide-content h2:after {
     content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
     height: 2px;
     background-color: var(--primary-color);
