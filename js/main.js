@@ -53,76 +53,86 @@ document.addEventListener('DOMContentLoaded', function() {
         existingNav.remove();
     }
     
-    // Add the navigation to the hero section instead of body
+    // Add the navigation to the hero section
     hero.appendChild(navContainer);
     
-    // Position the navigation
-    navContainer.style.position = 'absolute';
-    navContainer.style.bottom = '30px'; // Adjusted position
-    navContainer.style.left = '50%';
-    navContainer.style.transform = 'translateX(-50%)';
-    navContainer.style.zIndex = '100';
-    navContainer.style.display = 'flex';
-    
-    // Style the dots
+    // Style the navigation and dots
     const dotStyle = document.createElement('style');
     dotStyle.textContent = `
-        .slider-nav .slider-dots {
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 8px;
+            justify-content: center;
+            z-index: 100;
+            width: 100%;
         }
         
-        .slider-nav .dot {
-            width: 10px;
-            height: 10px;
+        .slider-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(0, 0, 0, 0.2);
+            background-color: rgba(200, 200, 200, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
-        .slider-nav .dot.active {
+        .dot.active {
             background-color: #4ECB71;
             transform: scale(1.2);
         }
         
         .hero {
-            position: relative; /* Ensure hero has position relative */
+            position: relative;
         }
         
         .product-slide {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
+            text-align: center;
             height: 100%;
             width: 100%;
-            padding: 0 5%;
+            padding: 10px;
+            box-sizing: border-box;
         }
         
         .slide-image {
-            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            max-width: 50%;
+            margin-bottom: 10px;
+            width: 100%;
+            max-height: 40vh;
         }
         
         .slide-image img {
-            max-width: 100%;
-            max-height: 400px;
+            max-width: 80%;
+            max-height: 200px;
+            object-fit: contain;
         }
         
         .slide-content {
-            flex: 1;
-            padding: 2rem;
-            max-width: 50%;
+            padding: 0 1rem;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
         }
         
         .slide-content h2 {
             color: #4ECB71;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
             position: relative;
             display: inline-block;
         }
@@ -130,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .slide-content h2:after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -3px;
             left: 0;
             width: 100%;
             height: 2px;
@@ -138,38 +148,87 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .slide-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             line-height: 1.2;
         }
         
         .slide-content p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        @media (max-width: 768px) {
+        .cta-button {
+            display: inline-block;
+            background-color: #4ECB71;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            background-color: #3da65b;
+        }
+        
+        @media (min-width: 768px) {
             .product-slide {
-                flex-direction: column;
-                padding: 2rem;
+                flex-direction: row;
+                text-align: left;
+                padding: 0 5%;
+                justify-content: space-between;
             }
             
-            .slide-image, .slide-content {
+            .slide-image {
+                flex: 1;
+                max-width: 45%;
+                margin-bottom: 0;
+                max-height: none;
+            }
+            
+            .slide-image img {
                 max-width: 100%;
+                max-height: 400px;
             }
             
             .slide-content {
-                text-align: center;
-                padding: 1rem 0;
-            }
-            
-            .slide-content h2:after {
-                left: 50%;
-                transform: translateX(-50%);
+                flex: 1;
+                padding: 2rem;
+                max-width: 50%;
+                text-align: left;
             }
             
             .slide-content h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .slide-content p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                max-width: 100%;
+            }
+            
+            .slide-content h2:after {
+                left: 0;
+                transform: none;
+                bottom: -5px;
+            }
+            
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
             }
         }
     `;
